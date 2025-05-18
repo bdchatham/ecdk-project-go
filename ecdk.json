@@ -1,6 +1,12 @@
 {
-  "name": "ecdk-project-go",
-  "version": "0.1.0",
-  "description": "An ECDK application",
-  "application": "go mod download && go run src/main.go"
+  "language": "go",
+  "app": "go run main.go",
+  "codeMakerOutput": "generated",
+  "projectId": "",
+  "sendCrashReports": "false",
+  "providers": [],
+  "modules": [],
+  "context": {
+
+  }
 }
