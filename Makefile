@@ -1,25 +1,16 @@
 # Variables
-BINARY_NAME=ecdk-app
 GO=go
 GOPATH=$(shell go env GOPATH)
 GOBIN=$(GOPATH)/bin
 GOLINT=$(GOBIN)/golangci-lint
 
-# Build flags
-LDFLAGS=-ldflags "-s -w"
+.PHONY: all clean test lint fmt dev help
 
-.PHONY: all build clean test lint fmt install uninstall
-
-all: clean build
-
-build:
-	@echo "Building $(BINARY_NAME)..."
-	$(GO) build $(LDFLAGS) -o bin/$(BINARY_NAME) ./src/main.go
+all: dev
 
 clean:
-	@echo "Cleaning..."
-	rm -rf bin/
-	rm -rf ecdk.out/
+	@echo "Cleaning up test and cache artifacts..."
+	$(GO) clean -testcache
 
 test:
 	@echo "Running tests..."
@@ -37,26 +28,13 @@ fmt:
 	@echo "Formatting code..."
 	$(GO) fmt ./...
 
-install: build
-	@echo "Installing $(BINARY_NAME)..."
-	cp bin/$(BINARY_NAME) $(GOBIN)/
+dev: fmt lint test
 
-uninstall:
-	@echo "Uninstalling $(BINARY_NAME)..."
-	rm -f $(GOBIN)/$(BINARY_NAME)
-
-# Development helpers
-dev: fmt lint test build
-
-# Help
 help:
 	@echo "Available targets:"
-	@echo "  all        - Clean and build"
-	@echo "  build      - Build the binary"
-	@echo "  clean      - Remove build artifacts"
-	@echo "  test       - Run tests"
-	@echo "  lint       - Run linter"
-	@echo "  fmt        - Format code"
-	@echo "  install    - Install binary to GOPATH"
-	@echo "  uninstall  - Remove binary from GOPATH"
-	@echo "  dev        - Run fmt, lint, test, and build"
+	@echo "  all        - Run dev tasks (fmt, lint, test)"
+	@echo "  clean      - Clean up build/test artifacts"
+	@echo "  test       - Run Go tests"
+	@echo "  lint       - Run golangci-lint"
+	@echo "  fmt        - Format code with gofmt"
+	@echo "  dev        - Run fmt, lint, and test"
