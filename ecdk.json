@@ -2,6 +2,5 @@
   "name": "ecdk-project-go",
   "version": "0.1.0",
   "description": "An ECDK application",
-  "stacks": [],
-  "plugins": []
+  "application": "go mod download && go run src/main.go"
 }
